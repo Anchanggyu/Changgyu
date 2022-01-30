@@ -168,7 +168,7 @@ pageEncoding="UTF-8" %>
 		</table>
 			<div class = "row">
 				<div class="form-group col-lg-6 col-sm-12 text-lg-start">
-					<input type="button" value="검색" onclick="nwindow(<%=bookID %>)" class="btn btn-info"/>
+					<input type="button" value="검색" onclick="nwindow()" class="btn btn-info"/>
 				</div>
 				<div class="form-group col-lg-6 col-sm-12 text-lg-end" >
 			  		<input type="button" class="btn btn-info" value = "글쓰기" onclick = "location.href = 'write.jsp'">

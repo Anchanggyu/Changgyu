@@ -67,6 +67,20 @@ public class BookDao {
 		return -1;
 	}
 	
+	public int getCount() {
+		String SQL = "select count(*) from book";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {	
+				return rs.getInt(1);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
 	//글쓰기 메소드
 	public int write(String bookTitle, String userID, String bookContent) {
 		

@@ -164,24 +164,23 @@ pageEncoding="UTF-8" %>
 			<form name = "p_search">
 				<div class = "row">
 					<div class="form-group col-lg-6 col-sm-12 text-lg-start">
-						<input type="button" value="검색" onclick="nwindow(<%=bookID %>)" class="btn btn-info"/>
+						<input type="button" value="검색" onclick="nwindow()" class="btn btn-info"/>
 					</div>
 					<div class="form-group col-lg-6 col-sm-12 text-lg-end" >
 				  		<input type="button" class="btn btn-info" value = "글쓰기" onclick = "location.href = 'write.jsp'">
 				  	</div>
 				</div>
 			</form>
+			<div class=container style="text-align:center">
 			<%
-				if (pageNum != 1) {
+				int pages = (int) Math.ceil(bookdao.getCount()/10)+1;
+					for(int i=1; i<=pages; i++){ 
 			%>
-				<a href = "board.jsp?pageNum=<%=pageNum - 1%>" class = "btn btn-secondary">◀이전</a>
+					<button type="button" onclick="location.href='board.jsp?&pageNum=<%=i %>'"><%=i %></button>
 			<%
-				} if (bookdao.nextPage(pageNum + 1)) {
+				} 
 			%>
-				<a href = "board.jsp?pageNum=<%=pageNum + 1%>" class = "btn btn-secondary">다음▶</a>
-			<%
-				}
-			%>
+		</div>
 			
 		</div>
 	</div>
