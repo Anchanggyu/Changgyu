@@ -4,13 +4,16 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+
 
 //Resultset = select 결과저장
 //PreparedStatment = statement를 상속받는 인터페이스로 SQL구문을 실행시키는 기능을 갖는 객체
 public class BookDao {
 
-	Connection conn; //mysql 연결을 위한 Connection
+	private Connection conn; //mysql 연결을 위한 Connection
+	private ResultSet rs;
 	
 	public BookDao() {
 		try {
@@ -32,12 +35,13 @@ public class BookDao {
 	
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				return rs.getString(1);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			if(rs != null) try {rs.close();} catch (SQLException ex) {}
+			if(conn != null) try {conn.close();} catch (SQLException ex) {}
 		}
 		
 		return ""; //DB 오류
@@ -50,33 +54,14 @@ public class BookDao {
 		
 		try { 
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				return rs.getInt(1) + 1; //첫번째 게시글이 아니면 마지막 게시글 + 1
 			}
 			return 1;
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return -1;
-	}
-	
-	//페이징 처리 버튼 갯수
-	public int getCount(int bookID) {
-		
-		String sql = "select count(*) from book where bookID = ?";
-		
-		try {
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, bookID);
-			ResultSet rs = pstmt.executeQuery();
-			
-			if (rs.next()) {
-				return rs.getInt(1);
-			}
-		}catch (Exception e) {
-			e.printStackTrace();
+			if(rs != null) try {rs.close();} catch (SQLException ex) {}
+			if(conn != null) try {conn.close();} catch (SQLException ex) {}
 		}
 		
 		return -1;
@@ -99,23 +84,24 @@ public class BookDao {
 			return pstmt.executeUpdate(); // 반영된 레코드의 건수 = 1
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			if(rs != null) try {rs.close();} catch (SQLException ex) {}
+			if(conn != null) try {conn.close();} catch (SQLException ex) {}
 		}
 		
 		return -1;
 	}
 	
 	//글목록 메소드
-	public ArrayList<BookDto> getList(int Num){
+	public ArrayList<BookDto> getList(int pageNum){
 		
-		String sql = "select * from book where bookID < ? and bookAvailable = 1 order by bookID desc";
+		String sql = "select * from book where bookAvailable = 1 order by bookID desc limit 10 offset ?";
 		
 		ArrayList<BookDto> list = new ArrayList<BookDto>();
 		
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, getNum());
-			ResultSet rs = pstmt.executeQuery();
+			pstmt.setInt(1, (pageNum - 1) * 10);
+			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				BookDto book = new BookDto();
@@ -128,28 +114,61 @@ public class BookDao {
 				list.add(book);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			if(rs != null) try {rs.close();} catch (SQLException ex) {}
+			if(conn != null) try {conn.close();} catch (SQLException ex) {}
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<BookDto> searchList(int pageNum, String search) {
+		
+		String sql = "select * from book where bookID < ? AND (bookTitle like ? or bookContent like ?) and bookAvailable = 1 order by bookID desc limit 10";
+		
+		ArrayList<BookDto> list = new ArrayList<BookDto>();
+		
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, (pageNum - 1) * 10);
+			pstmt.setString(2, "%"+search+"%");
+			pstmt.setString(3, "%"+search+"%");
+			
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				BookDto book = new BookDto();
+				book.setBookID(rs.getInt(1));
+				book.setBookTitle(rs.getString(2));
+				book.setUserID(rs.getString(3));
+				book.setBookDate(rs.getString(4));
+				book.setBookContent(rs.getString(5));
+				book.setBookAvailable(rs.getInt(6));
+				list.add(book);
+			}
+		} catch (Exception e) {
+			if(rs != null) try {rs.close();} catch (SQLException ex) {}
+			if(conn != null) try {conn.close();} catch (SQLException ex) {}
 		}
 		
 		return list;
 	}
 	
 	//페이징 처리 메소드
-	public boolean nextPage(int bookID, int pageNum) {
+	public boolean nextPage(int pageNum) {
 		
-		String sql = "select * from book where bookID = ? and bookAvailable = 1";
+		String sql = "select * from book where bookAvailable = 1 order by bookID desc limit 10 offset ?";
 		
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, bookID);
-			ResultSet rs = pstmt.executeQuery();
+			pstmt.setInt(1, (pageNum - 1) * 10);
+			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				return true;
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			if(rs != null) try {rs.close();} catch (SQLException ex) {}
+			if(conn != null) try {conn.close();} catch (SQLException ex) {}
 		}
 		
 		return false; //DB오류
@@ -163,7 +182,7 @@ public class BookDao {
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bookID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				BookDto book = new BookDto();
@@ -214,7 +233,8 @@ public class BookDao {
 			
 			return pstmt.executeUpdate();
 		} catch(Exception e) {
-			e.printStackTrace();
+			if(rs != null) try {rs.close();} catch (SQLException ex) {}
+			if(conn != null) try {conn.close();} catch (SQLException ex) {}
 		}
 		
 		return -1;

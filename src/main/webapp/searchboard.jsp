@@ -65,6 +65,11 @@ pageEncoding="UTF-8" %>
 		if(request.getParameter("pageNum") != null) {
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
 		}
+		
+		String search = null;
+		if (request.getParameter("search") != null) {
+			search = request.getParameter("search");
+		}
 	%>
 	
   <!-- ======= Header ======= -->
@@ -146,7 +151,7 @@ pageEncoding="UTF-8" %>
 			<%
 				BookDao bookdao = new BookDao();
 				
-				ArrayList<BookDto> list = bookdao.getList(pageNum);
+				ArrayList<BookDto> list = bookdao.searchList(pageNum, search);
 				
 				for (int i=0 ; i<list.size() ; i++) {
 			%>
@@ -161,28 +166,14 @@ pageEncoding="UTF-8" %>
 				}
 			%>
 		</table>
-			<form name = "p_search">
-				<div class = "row">
-					<div class="form-group col-lg-6 col-sm-12 text-lg-start">
-						<input type="button" value="검색" onclick="nwindow(<%=bookID %>)" class="btn btn-info"/>
-					</div>
-					<div class="form-group col-lg-6 col-sm-12 text-lg-end" >
-				  		<input type="button" class="btn btn-info" value = "글쓰기" onclick = "location.href = 'write.jsp'">
-				  	</div>
+			<div class = "row">
+				<div class="form-group col-lg-6 col-sm-12 text-lg-start">
+					<input type="button" value="검색" onclick="nwindow(<%=bookID %>)" class="btn btn-info"/>
 				</div>
-			</form>
-			<%
-				if (pageNum != 1) {
-			%>
-				<a href = "board.jsp?pageNum=<%=pageNum - 1%>" class = "btn btn-secondary">◀이전</a>
-			<%
-				} if (bookdao.nextPage(pageNum + 1)) {
-			%>
-				<a href = "board.jsp?pageNum=<%=pageNum + 1%>" class = "btn btn-secondary">다음▶</a>
-			<%
-				}
-			%>
-			
+				<div class="form-group col-lg-6 col-sm-12 text-lg-end" >
+			  		<input type="button" class="btn btn-info" value = "글쓰기" onclick = "location.href = 'write.jsp'">
+			  	</div>
+			</div>
 		</div>
 	</div>
 	<script>
