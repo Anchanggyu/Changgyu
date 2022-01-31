@@ -67,6 +67,7 @@ public class BookDao {
 		return -1;
 	}
 	
+	//게시글 수 구하는 메소드
 	public int getCount() {
 		String SQL = "select count(*) from book";
 		try {
@@ -135,18 +136,18 @@ public class BookDao {
 		return list;
 	}
 	
+	//글목록 검색 메소드
 	public ArrayList<BookDto> searchList(int pageNum, String search) {
 		
-		String sql = "select * from book where bookID < ? AND (bookTitle like ? or bookContent like ?) and bookAvailable = 1 order by bookID desc limit 10";
+		String sql = "select * from book where (bookTitle like ? or bookContent like ?) and bookAvailable = 1 order by bookID desc limit 10 offset ?";
 		
 		ArrayList<BookDto> list = new ArrayList<BookDto>();
 		
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, (pageNum - 1) * 10);
+			pstmt.setString(1, "%"+search+"%");
 			pstmt.setString(2, "%"+search+"%");
-			pstmt.setString(3, "%"+search+"%");
-			
+			pstmt.setInt(3, (pageNum - 1) * 10);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				BookDto book = new BookDto();
@@ -168,12 +169,35 @@ public class BookDao {
 	
 	//페이징 처리 메소드
 	public boolean nextPage(int pageNum) {
-		
+			
 		String sql = "select * from book where bookAvailable = 1 order by bookID desc limit 10 offset ?";
 		
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, (pageNum - 1) * 10);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				return true;
+			}
+				
+		} catch (Exception e) {
+			if(rs != null) try {rs.close();} catch (SQLException ex) {}
+			if(conn != null) try {conn.close();} catch (SQLException ex) {}
+		}
+			
+		return false; //DB오류
+	}
+	
+	public boolean searchnextPage(int pageNum, String search) {
+		
+		String sql = "select * from book where (bookTitle like ? or bookContent like ?) and bookAvailable = 1 order by bookID desc limit 10 offset ?";
+		
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%"+search+"%");
+			pstmt.setString(2, "%"+search+"%");
+			pstmt.setInt(3, (pageNum - 1) * 10);
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
@@ -185,7 +209,7 @@ public class BookDao {
 			if(conn != null) try {conn.close();} catch (SQLException ex) {}
 		}
 		
-		return false; //DB오류
+		return false;
 	}
 	
 	//글내용 메소드

@@ -166,14 +166,29 @@ pageEncoding="UTF-8" %>
 				}
 			%>
 		</table>
-			<div class = "row">
-				<div class="form-group col-lg-6 col-sm-12 text-lg-start">
-					<input type="button" value="검색" onclick="nwindow()" class="btn btn-info"/>
+			<form name = "p_search">
+				<div class = "row">
+					<div class="form-group col-lg-6 col-sm-12 text-lg-start">
+						<input type="button" value="검색" onclick="nwindow()" class="btn btn-info"/>
+					</div>
+					<div class="form-group col-lg-6 col-sm-12 text-lg-end" >
+				  		<input type="button" class="btn btn-info" value = "글쓰기" onclick = "location.href = 'write.jsp'">
+				  	</div>
 				</div>
-				<div class="form-group col-lg-6 col-sm-12 text-lg-end" >
-			  		<input type="button" class="btn btn-info" value = "글쓰기" onclick = "location.href = 'write.jsp'">
-			  	</div>
-			</div>
+			</form>
+			<div class="col-lg-12 text-lg-start">
+			<% 
+				if(pageNum != 1) {
+			%>
+				<a href="searchboard.jsp?pageNum=<%= pageNum-1 %>&search=<%= search%>"><button class = "btn btn-secondary" type = "button">◀이전</button></a>
+			<%
+				} if (bookdao.searchnextPage(pageNum + 1, search)) {
+			%>
+				<a href = "searchboard.jsp?pageNum=<%= pageNum+1 %>&search=<%= search%>"><button class = "btn btn-secondary" type = "button">다음▶</button></a>
+	 	    <%
+				}
+	  		%>
+	  		</div>
 		</div>
 	</div>
 	<script>
