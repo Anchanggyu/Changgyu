@@ -2,28 +2,17 @@ package comment;
 
 public class CommentDto {
 
-	private int id;
 	private int commentID;
-	private String commeetContent;
 	private int bookID;
-	private int commnetAvailable;
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+	private String userID;
+	private String commentText;
+	private int commentAvailable;
+	
 	public int getCommentID() {
 		return commentID;
 	}
 	public void setCommentID(int commentID) {
 		this.commentID = commentID;
-	}
-	public String getCommeetContent() {
-		return commeetContent;
-	}
-	public void setCommeetContent(String commeetContent) {
-		this.commeetContent = commeetContent;
 	}
 	public int getBookID() {
 		return bookID;
@@ -31,12 +20,25 @@ public class CommentDto {
 	public void setBookID(int bookID) {
 		this.bookID = bookID;
 	}
-	public int getCommnetAvailable() {
-		return commnetAvailable;
+	public String getUserID() {
+		return userID;
 	}
-	public void setCommnetAvailable(int commnetAvailable) {
-		this.commnetAvailable = commnetAvailable;
+	public void setUserID(String userID) {
+		this.userID = userID;
 	}
+	public String getCommentText() {
+		return commentText;
+	}
+	public void setCommentText(String commentText) {
+		this.commentText = commentText;
+	}
+	public int getCommentAvailable() {
+		return commentAvailable;
+	}
+	public void setCommentAvailable(int commentAvailable) {
+		this.commentAvailable = commentAvailable;
+	}
+	
 	
 	
 }

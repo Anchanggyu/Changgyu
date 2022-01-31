@@ -77,7 +77,8 @@ public class BookDao {
 				return rs.getInt(1);
 			}
 		}catch(Exception e) {
-			e.printStackTrace();
+			if(rs != null) try {rs.close();} catch (SQLException ex) {}
+			if(conn != null) try {conn.close();} catch (SQLException ex) {}
 		}
 		return -1;
 	}

@@ -190,7 +190,7 @@ pageEncoding="UTF-8" %>
 		var url= "search.jsp";
 		window.open(url,"","width=500,height=300,left=500");
 	}
-</script>
+	</script>
 </section>
  
   <!-- ======= Footer ======= -->

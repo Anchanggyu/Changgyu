@@ -1,7 +1,10 @@
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ page import = "book.BookDto" %>
 <%@ page import = "book.BookDao" %>
+<%@ page import = "comment.CommentDto" %>
+<%@ page import = "comment.CommentDao" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -59,6 +62,7 @@ pageEncoding="UTF-8" %>
 	}
 	
 	BookDto bookdto = new BookDao().getBookdto(bookID);
+	CommentDao commentdao = new CommentDao();
 %>
 	
   <!-- ======= Header ======= -->
@@ -176,7 +180,7 @@ pageEncoding="UTF-8" %>
 	</div>
 	
 	<div class = "container">
-		<form method="post" action="replyAction.jsp?bookID=<%= bookID %>">
+		<form method="post" action="function/commentwrite.jsp?bookID=<%= bookID %>">
 			<table class = "table table-striped" style = "text-align : center; border : 1px solid #dddddd;">
 				<%-- 홀,짝 행 구분 --%>
 				<thead>
@@ -185,22 +189,39 @@ pageEncoding="UTF-8" %>
 					</tr>
 				</thead>
 				<tbody>
+					<%
+						ArrayList<CommentDto> list = commentdao.getList(bookID);
+						for (int i=0 ; i<list.size() ; i++) {
+					%>
+				
 					<tr>
-						<td style="text-align: left;">d</td>
-						<td style="text-align: right;">
-						<a href="update.jsp?bbsID=d" class="btn">수정</a>
-						<a href="update.jsp?bbsID=d" class="btn ">삭제</a>
+						<td style="text-align: left;"><%= list.get(i).getCommentText() %></td>
+						<td style="text-align: right;"><%= list.get(i).getUserID() %>
+						<form name = "p_search">
+							<input type= "button" value = "수정" onclick="nwindow(<%= bookID %>,<%= list.get(i).getCommentID()%>)" class = "btn"> 
+						</form>
+						<a onclick="return confirm('정말로 삭제하시겠습니까?')" href = "commentDelete.jsp?commentID=<%= list.get(i).getCommentID() %>" class = "btn">삭제</a>
 						</td>
 					</tr>
+					<%
+						}
+					%>
 						<td><textarea type="text" class="form-control"
-								placeholder="댓글을 입력하세요." name="replyContent" maxlength="2048"></textarea></td>
+								placeholder="댓글을 입력하세요." name="commentText" maxlength="2048"></textarea></td>
 						<td style="text-align: left; "></td>
 				</tbody>
 			</table>
-			<input type="submit" class="btn" value="댓글입력">
+			<input type="submit" class="btn btn-primary" value="댓글입력">
 		</form>	
 	</div>
-  </section> 
+	<script>
+	function nwindow(bookID,commentID){
+		window.name = "commentParant";				//이름이 없으니까 그냥 이름을 설정해줍니다.
+		var url= "commentUpdate.jsp?&bookID="+bookID+"&commentID="+commentID;
+		window.open(url,"","width=600,height=230,left=300");		//자식창이 되는 주소를 오픈해줌 (크기도 설정해 줍니다.)
+	}
+	</script>
+</section> 
   
  <!-- ======= Footer ======= -->
   <footer id="footer" class="section-bg">
