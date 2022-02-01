@@ -2,15 +2,18 @@
 
 
 ## 0. 목차
-[1. database EER Diagram](##1-database-eer-diagram)
+[1. 주제](##1-주제)
 
-[2. 구현한 기능](##2-구현한-기능)
+[2. database EER Diagram](##2-database-eer-diagram)
+
+[3. 구현한 기능](##3-구현한-기능)
+## 1. 주제
+JSP를 활용한 게시판
+
+## 2. database EER Diagram
 
 
-## 1. database EER Diagram
-
-
-## 2. 구현한 기능
+## 3. 구현한 기능
 1. 회원가입, 로그인 기능
 2. 게시판 CRUD 
 3. 댓글 CRUD
