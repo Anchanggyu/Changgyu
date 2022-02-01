@@ -24,7 +24,7 @@
 	}
 	if (book.getBookTitle() == null || book.getBookContent() == null) {
 		
-		System.out.println("write action : check bbs parameter" + book.getBookTitle());
+		System.out.println("write action : check book parameter" + book.getBookTitle());
 		
 		out.println("<script>");
 		out.println("alert('빠짐 없이 작성 해주세요')");
@@ -32,7 +32,7 @@
 		out.println("</script>");
 	} else { //정상 작동
 		
-		System.out.println("getNewNext before bbsDAO.write : " + book.getBookID());
+		System.out.println("getNewNext before bookDao.write : " + book.getBookID());
 		
 		BookDao bookdao = new BookDao();
 	

@@ -50,7 +50,7 @@
 		} else {
 			out.println("<script>");
 			out.println("alert('수정이 완료되었습니다.')");
-			out.println("location.href = '../board.jsp'");
+			out.println("location.href = '../view.jsp?bookID="+bookID+"'");
 			out.println("</script>");
 		}
 	}

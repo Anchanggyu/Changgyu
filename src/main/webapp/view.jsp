@@ -197,11 +197,17 @@ pageEncoding="UTF-8" %>
 					<tr>
 						<td style="text-align: left;"><%= list.get(i).getCommentText() %></td>
 						<td style="text-align: right;"><%= list.get(i).getUserID() %>
-						<form name = "p_search">
-							<input type= "button" value = "수정" onclick="nwindow(<%= bookID %>,<%= list.get(i).getCommentID()%>)" class = "btn"> 
-						</form>
-						<a onclick="return confirm('정말로 삭제하시겠습니까?')" href = "commentDelete.jsp?commentID=<%= list.get(i).getCommentID() %>" class = "btn">삭제</a>
-						</td>
+						<%
+							if (list.get(i).getUserID() != null && list.get(i).getUserID().equals(id)) {
+						%>
+							<form name = "p_search">
+								<input type= "button" value = "수정" onclick="nwindow(<%= bookID %>,<%= list.get(i).getCommentID()%>)" class = "btn"> 
+							</form>
+							<a onclick="return confirm('정말로 삭제하시겠습니까?')" href = "function/commentdelete.jsp?commentID=<%= list.get(i).getCommentID() %>" class = "btn">삭제</a>
+							</td>
+						<%
+							}
+						%>
 					</tr>
 					<%
 						}
@@ -216,8 +222,8 @@ pageEncoding="UTF-8" %>
 	</div>
 	<script>
 	function nwindow(bookID,commentID){
-		window.name = "commentParant";				//이름이 없으니까 그냥 이름을 설정해줍니다.
-		var url= "commentUpdate.jsp?&bookID="+bookID+"&commentID="+commentID;
+		window.name = "commentParant";
+		var url= "commentupdate.jsp?&bookID="+bookID+"&commentID="+commentID;
 		window.open(url,"","width=600,height=230,left=300");		//자식창이 되는 주소를 오픈해줌 (크기도 설정해 줍니다.)
 	}
 	</script>

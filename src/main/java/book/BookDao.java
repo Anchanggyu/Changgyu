@@ -190,6 +190,7 @@ public class BookDao {
 		return false; //DB오류
 	}
 	
+	//검색후 페이징 처리
 	public boolean searchnextPage(int pageNum, String search) {
 		
 		String sql = "select * from book where (bookTitle like ? or bookContent like ?) and bookAvailable = 1 order by bookID desc limit 10 offset ?";

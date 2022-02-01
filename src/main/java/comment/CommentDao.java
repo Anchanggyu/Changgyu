@@ -61,6 +61,7 @@ public class CommentDao {
 		return -1; //데이터베이스 오류
 	}
 	
+	//댓글 목록 메소드
 	public ArrayList<CommentDto> getList(int bookID) {
 		
 		String sql = "select * from comment where commentAvailable = 1 and bookID = ?  order by bookID desc";
@@ -90,5 +91,87 @@ public class CommentDao {
 		
 		
 		return list;
+	}
+	
+	public CommentDto getComment(int commentID) {
+		
+		String sql = "select * from comment where commentID = ? order by commentID desc";
+		
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, commentID);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				CommentDto commentdto = new CommentDto();
+				commentdto.setCommentID(rs.getInt(1));
+				commentdto.setBookID(rs.getInt(2));
+				commentdto.setUserID(rs.getString(3));
+				commentdto.setCommentText(rs.getString(4));
+				commentdto.setCommentAvailable(rs.getInt(5));
+				
+				return commentdto;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public String getUpdateCommnet (int commentID) {
+		
+		String sql = "select commentText from comment where commentID = ?";
+		
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, commentID);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return rs.getString(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "";
+	}
+	
+	//댓글 수정 메소드
+	public int update(int commentID, String commentText) {
+		
+		String sql = "update comment set commentText = ? where commentID like?";
+		
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, commentText);
+			pstmt.setInt(2, commentID);
+			return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return -1;
+	}
+	
+	//댓글 삭제 메소드
+	public int delete (int commentID) {
+		
+		String sql = "update comment set commentAvailable = 0 where commentID = ?";
+		
+		try {
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, commentID);
+			
+			return pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return -1;
 	}
 }

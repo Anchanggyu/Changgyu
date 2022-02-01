@@ -51,7 +51,7 @@
 			} else {
 				out.println("<script>");
 				out.println("alert('댓글이 작성되었습니다.')");
-				out.println("history.back()");
+				out.println("location.href=document.referrer;");
 				out.println("</script>");
 			}
 		} 
