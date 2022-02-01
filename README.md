@@ -11,6 +11,7 @@
 JSP를 활용한 게시판
 
 ## 2. database EER Diagram
+![Site erd](https://user-images.githubusercontent.com/81604203/151985265-95b0b5bb-29bb-450d-a4d4-253d0a60e929.PNG)
 
 
 ## 3. 구현한 기능
