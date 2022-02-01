@@ -2,11 +2,11 @@
 
 
 ## 0. 목차
-[1. 주제](##1-주제)
+[1. 주제]
 
-[2. database EER Diagram](##2-database-eer-diagram)
+[2. database EER Diagram]
 
-[3. 구현한 기능](##3-구현한-기능)
+[3. 구현한 기능]
 ## 1. 주제
 JSP를 활용한 게시판
 
