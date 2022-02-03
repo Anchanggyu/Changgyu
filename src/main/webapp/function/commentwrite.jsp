@@ -16,6 +16,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<!-- 댓글 작성 기능-->
 <%
 	String id = null;
 	if (session.getAttribute("id") != null) {

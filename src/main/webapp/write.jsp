@@ -2,7 +2,7 @@
 pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
-
+<!-- 글작성 화면 -->
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">

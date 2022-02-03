@@ -3,7 +3,7 @@ pageEncoding="UTF-8" %>
 <%@ page import = "java.io.PrintWriter" %>
 <!DOCTYPE html>
 <html lang="en">
-
+<!-- 회원탈퇴 화면 -->
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">

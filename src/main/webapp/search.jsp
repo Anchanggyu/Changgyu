@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="assets/css/custom.css">
-
+<!-- 검색창 화면 -->
 <title>검색</title>
 </head>
 <body>

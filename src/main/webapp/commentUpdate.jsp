@@ -10,6 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<!-- 댓글 수정창 -->
 <%
 	String id = null;
 	

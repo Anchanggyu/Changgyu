@@ -15,6 +15,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<!-- 게시글 삭제 기능 -->
 <%
 	String id = null;
 	if (session.getAttribute("id") != null) {

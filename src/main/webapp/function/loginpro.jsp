@@ -15,6 +15,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<!-- 로그인 처리 기능 -->
 <%
 	//로그인을 처리하는 화면
 	String id = null;

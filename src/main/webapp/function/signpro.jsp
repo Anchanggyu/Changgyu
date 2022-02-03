@@ -19,6 +19,7 @@
 <title>Insert title here </title>
 </head>
 <body>
+<!-- 회원가입 처리기능 -->
 <%
 	//회원가입 폼에서 빈칸이 하나라도 존재할시 나오는 알림창
 	if(member.getId() == null || member.getPw() == null || member.getName() == null || 

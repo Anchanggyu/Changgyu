@@ -18,7 +18,7 @@
 <title>글 수정</title>
 </head>
 <body>
-<!-- 게시글 수정 -->
+<!-- 게시글 수정 기능 -->
 <%
 	String id = null;
 	if (session.getAttribute("id") != null) {

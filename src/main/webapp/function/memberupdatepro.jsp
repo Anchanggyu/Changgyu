@@ -18,6 +18,7 @@
 <title>회원 정보수정 처리</title>
 </head>
 <body>
+<!-- 회원 정보 수정 기능 -->
 <%
 	String id = null;
 	

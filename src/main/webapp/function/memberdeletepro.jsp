@@ -15,6 +15,7 @@
 <title>회원탈퇴 처리</title>
 </head>
 <body>
+<!-- 회원 탈퇴 기능 -->
 <%
 	String id = null;
 	if (session.getAttribute("id") != null) {
